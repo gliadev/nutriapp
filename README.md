@@ -2,7 +2,8 @@ nutriAPP, sera una aplicacion con conexion a mongoAtlas para ayudar a los nutric
 
 ... Como terminara... pues habra que verlo.
 
-![image](https://user-images.githubusercontent.com/78279221/227726149-44be9fd4-febf-4528-8643-61816704ae76.png)
+![image](https://user-images.githubusercontent.com/78279221/227726200-99e527a0-8b86-4c93-8221-9d33f26afba1.png)
+
 
 
 
