@@ -5,7 +5,7 @@ const PacienteSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  apellido: {
+  apellidos: {
     type: String,
     required: true,
   },
@@ -17,6 +17,14 @@ const PacienteSchema = new mongoose.Schema({
   fechaNacimiento: {
     type: Date,
     required: true,
+  },
+  pesoActual: {
+    type: String,
+    require: true,
+  },
+  historialMedico: {
+    type: String,
+    require: true,
   },
   // Añade aquí más campos según tus necesidades
 });

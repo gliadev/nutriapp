@@ -3,6 +3,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+// Importar rutas
+const pacienteRoutes = require("./routes/pacienteRoutes");
+const entrenamientoRoutes = require("./routes/entrenamientoRoutes");
+
 // Cargar las variables de entorno del archivo .env
 dotenv.config();
 
@@ -12,14 +16,18 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Conexión a MongoDB Atlas exitosa"))
+  .then(() => console.log("Conexión a MongoDB Atlas tooOK"))
   .catch((err) => console.error("Error al conectar a MongoDB Atlas:", err));
 
 // Crear la aplicación Express
 const app = express();
 
+// Configurar middlewares
+app.use(express.json());
+
 // Configurar middlewares, rutas, etc.
-// ...
+app.use("/paciente", pacienteRoutes);
+app.use("/entrenamiento", entrenamientoRoutes);
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3001;
