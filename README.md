@@ -1,3 +1,11 @@
+nutriAPP, sera una aplicacion con conexion a mongoAtlas para ayudar a los nutricionistas al control de sus pacientes, gestion de citas, menus, entrenamientos personales y revisiones clinicas.
+
+... Como terminara... pues habra que verlo.
+
+![image](https://user-images.githubusercontent.com/78279221/227726149-44be9fd4-febf-4528-8643-61816704ae76.png)
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
