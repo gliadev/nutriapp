@@ -1,4 +1,3 @@
-// Importar las dependencias
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -19,21 +18,30 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Conexión a MongoDB Atlas tooOK"))
+  .then(() => console.log("Conexión a MongoDB Atlas exitosa"))
   .catch((err) => console.error("Error al conectar a MongoDB Atlas:", err));
+
+// Obtener una referencia a la conexión de base de datos
+const db = mongoose.connection;
+
+// Manejar eventos de la conexión de base de datos
+db.on("error", console.error.bind(console, "Error en la conexión a MongoDB:"));
+db.once("open", function() {
+  console.log("Conexión a la base de datos establecida");
+
+  // Agregar las rutas de las colecciones
+  app.use("/api/paciente", pacienteRoutes);
+  app.use("/api/entrenamiento", entrenamientoRoutes);
+  app.use("/api/nutricionista", nutricionistaRoutes);
+  app.use("/api/cita", citaRoutes);
+  app.use("/api/menus-semanal", menusSemanalRoutes);
+});
 
 // Crear la aplicación Express
 const app = express();
 
 // Configurar middlewares
 app.use(express.json());
-
-// Configurar middlewares, rutas, etc.
-app.use("/api/paciente", pacienteRoutes);
-app.use("/api/entrenamiento", entrenamientoRoutes);
-app.use("/api/nutricionista", nutricionistaRoutes);
-app.use("/api/cita", citaRoutes);
-app.use("/api/menus-semanal", menusSemanalRoutes);
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
