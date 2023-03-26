@@ -18,7 +18,7 @@ const NutricionistaSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  añosExperiencia: {
+  aniosExperiencia: {
     type: Number,
     required: true,
   },

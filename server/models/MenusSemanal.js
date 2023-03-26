@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const MenuSemanalSchema = new mongoose.Schema({
+const MenuSemanalSchema = new Schema({
   nombre: {
     type: String,
     required: true,

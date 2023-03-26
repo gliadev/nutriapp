@@ -6,6 +6,9 @@ const dotenv = require("dotenv");
 // Importar rutas
 const pacienteRoutes = require("./routes/pacienteRoutes");
 const entrenamientoRoutes = require("./routes/entrenamientoRoutes");
+const citaRoutes = require("./routes/citaRoutes");
+const nutricionistaRoutes = require("./routes/nutricionistaRoutes");
+const menusSemanalRoutes = require("./routes/menusSemanalRoutes");
 
 // Cargar las variables de entorno del archivo .env
 dotenv.config();
@@ -26,11 +29,14 @@ const app = express();
 app.use(express.json());
 
 // Configurar middlewares, rutas, etc.
-app.use("/paciente", pacienteRoutes);
-app.use("/entrenamiento", entrenamientoRoutes);
+app.use("/api/paciente", pacienteRoutes);
+app.use("/api/entrenamiento", entrenamientoRoutes);
+app.use("/api/nutricionista", nutricionistaRoutes);
+app.use("/api/cita", citaRoutes);
+app.use("/api/menus-semanal", menusSemanalRoutes);
 
 // Iniciar el servidor
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en el puerto ${PORT}`);
 });

@@ -3,7 +3,37 @@ const router = express.Router();
 const Entrenamiento = require("../models/Entrenamiento");
 
 // ruta get para obtener los entrenamientos
-router.put("/:id", async (req, res) => {
+router.get("/api/entrenamiento", async (req, res) => {
+  try {
+    const entrenamientos = await Entrenamiento.find();
+    res.json(entrenamientos);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Ruta GET para obtener un entrenamiento por su ID
+router.get("/api/entrenamiento/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const entrenamiento = await Entrenamiento.findById(id).populate(
+      "nutricionista",
+      "nombre"
+    );
+
+    if (!entrenamiento) {
+      return res.status(404).json({ message: "Entrenamiento no encontrado" });
+    }
+
+    res.json(entrenamiento);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Ruta PUT para actualizar un entrenamiento existente
+router.put("/api/entrenamiento/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -12,14 +42,11 @@ router.put("/:id", async (req, res) => {
       req.body,
       {
         new: true,
-        runValidators: true,
       }
     );
-
     if (!updatedEntrenamiento) {
       return res.status(404).json({ message: "Entrenamiento no encontrado" });
     }
-
     res.json(updatedEntrenamiento);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -27,7 +54,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Ruta POST para crear un nuevo entrenamiento
-router.post("/", async (req, res) => {
+router.post("/api/entrenamiento", async (req, res) => {
   const entrenamiento = new Entrenamiento(req.body);
 
   try {
@@ -38,29 +65,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Ruta PUT para actualizar un entrenamiento existente
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const updatedEntrenamiento = await Entrenamiento.findByIdAndUpdate(
-      id,
-      req.body,
-      {
-        new: true,
-      }
-    );
-    if (!updatedEntrenamiento) {
-      return res.status(404).json({ message: "Entrenamiento no encontrado" });
-    }
-    res.json(updatedEntrenamiento);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
 // Ruta DELETE para eliminar un entrenamiento existente
-router.delete("/:id", async (req, res) => {
+router.delete("/api/entrenamiento/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
