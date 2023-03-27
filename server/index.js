@@ -39,8 +39,14 @@ db.once("open", function () {
   app.use("/api/cita", citaRoutes);
   app.use("/api/menus-semanal", menusSemanalRoutes);
 
+  // Manejar errores
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: "Ocurrió un error en el servidor" });
+  });
+
   // Iniciar el servidor
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en el puerto ${PORT}`);
   });
