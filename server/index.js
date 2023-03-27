@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 
 // Importar rutas
 const pacienteRoutes = require("./routes/pacienteRoutes");
@@ -8,9 +8,6 @@ const entrenamientoRoutes = require("./routes/entrenamientoRoutes");
 const citaRoutes = require("./routes/citaRoutes");
 const nutricionistaRoutes = require("./routes/nutricionistaRoutes");
 const menusSemanalRoutes = require("./routes/menusSemanalRoutes");
-
-// Cargar las variables de entorno del archivo .env
-dotenv.config();
 
 // Conectar Mongoose a MongoDB Atlas
 mongoose
@@ -26,7 +23,7 @@ const db = mongoose.connection;
 
 // Manejar eventos de la conexión de base de datos
 db.on("error", console.error.bind(console, "Error en la conexión a MongoDB:"));
-db.once("open", function() {
+db.once("open", function () {
   console.log("Conexión a la base de datos establecida");
 
   // Crear la aplicación Express
