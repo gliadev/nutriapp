@@ -3,7 +3,7 @@ const router = express.Router();
 const Nutricionista = require("../models/Nutricionista");
 
 // router get para obtener los nutris
-router.get("/api/nutricionista", async (req, res) => {
+router.get("", async (req, res) => {
   try {
     const nutricionista = await Nutricionista.find();
     res.json(nutricionista);
@@ -15,7 +15,7 @@ router.get("/api/nutricionista", async (req, res) => {
 });
 
 // Ruta put para actualizar  nutri
-router.put("/api/nutricionista/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const updatedNutricionista = await Nutricionista.findByIdAndUpdate(
@@ -37,7 +37,7 @@ router.put("/api/nutricionista/:id", async (req, res) => {
 });
 
 // ruta post para crear un nitri
-router.post("/api/nutricionista", async (req, res) => {
+router.post("", async (req, res) => {
   const { nombre, apellido, email, especialidad, aniosExperiencia } = req.body;
   const nutricionista = new Nutricionista({
     nombre,
@@ -55,7 +55,7 @@ router.post("/api/nutricionista", async (req, res) => {
 });
 
 // ruta delete para borrar nutri
-router.delete("/api/nutricionista/:id", async (req, res) => {
+router.delete("", async (req, res) => {
   const { id } = req.params;
   try {
     const deletedCita = await Nutricionista.findByIdAndDelete(id);

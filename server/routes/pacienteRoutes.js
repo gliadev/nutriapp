@@ -3,7 +3,7 @@ const router = express.Router();
 const Paciente = require("../models/Pacient");
 
 // Ruta para obtener todos los pacientes
-router.get("/api/paciente", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const pacientes = await Paciente.find();
     res.json(pacientes);
@@ -13,7 +13,7 @@ router.get("/api/paciente", async (req, res) => {
 });
 
 // Ruta para obtener un paciente por ID
-router.get("api/paciente/:id", async (req, res) => {
+router.get(":id", async (req, res) => {
   try {
     const paciente = await Paciente.findById(req.params.id);
     if (paciente == null) {
@@ -26,7 +26,7 @@ router.get("api/paciente/:id", async (req, res) => {
 });
 
 // Ruta para crear un paciente
-router.post("/api/paciente", async (req, res) => {
+router.post("/", async (req, res) => {
   const paciente = new Paciente({
     nombre: req.body.nombre,
     apellidos: req.body.apellidos,
@@ -46,7 +46,7 @@ router.post("/api/paciente", async (req, res) => {
 });
 
 // Ruta para actualizar un paciente por ID
-router.put("api/paciente/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const paciente = await Paciente.findByIdAndUpdate(req.params.id, req.body, {
       new: true,

@@ -4,7 +4,7 @@ const MenuSemanal = require("../models/MenusSemanal");
 const Nutricionista = require("../models/Nutricionista");
 
 // Obtener todos los menús semanales
-router.get("/api/menus-semanal", async (req, res) => {
+router.get("", async (req, res) => {
   try {
     const menus = await MenuSemanal.find().populate("nutricionista");
     res.json(menus);
@@ -14,7 +14,7 @@ router.get("/api/menus-semanal", async (req, res) => {
 });
 
 // Obtener un menú semanal específico
-router.get("/api/menus-semanal/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const menu = await MenuSemanal.findById(req.params.id).populate(
       "nutricionista"
@@ -26,7 +26,7 @@ router.get("/api/menus-semanal/:id", async (req, res) => {
 });
 
 // Crear un menú semanal
-router.post("/api/menus-semanal", async (req, res) => {
+router.post("", async (req, res) => {
   try {
     const { nombre, descripcion, dias, nutricionista } = req.body;
     const nutricionistaExistente = await Nutricionista.findById(nutricionista);
@@ -50,7 +50,7 @@ router.post("/api/menus-semanal", async (req, res) => {
 });
 
 // Actualizar un menú semanal
-router.put("/api/menus-semanal/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const updatedMenuSemanal = await MenuSemanal.findByIdAndUpdate(
       req.params.id,
@@ -64,7 +64,7 @@ router.put("/api/menus-semanal/:id", async (req, res) => {
 });
 
 // Eliminar un menú semanal
-router.delete("/api/menus-semanal/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const deletedMenuSemanal = await MenuSemanal.findByIdAndRemove(
       req.params.id

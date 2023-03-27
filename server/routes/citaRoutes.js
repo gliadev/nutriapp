@@ -3,7 +3,7 @@ const router = express.Router();
 const Cita = require("../models/Cita");
 
 // ruta get para obtener citas
-router.get("/api/cita", async (req, res) => {
+router.get("", async (req, res) => {
   try {
     const citas = await Cita.find();
     res.json(citas);
@@ -13,7 +13,7 @@ router.get("/api/cita", async (req, res) => {
 });
 
 // Ruta put para actualizar una cita
-router.put("/api/cita/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const updatedCita = await Cita.findByIdAndUpdate(id, req.body, {
@@ -29,15 +29,9 @@ router.put("/api/cita/:id", async (req, res) => {
 });
 
 // ruta para crear una cita nueva
-router.post("/api/cita", async (req, res) => {
-  const {
-    fecha,
-    hora,
-    paciente,
-    nutricionista,
-    motivo,
-    observaciones,
-  } = req.body;
+router.post("", async (req, res) => {
+  const { fecha, hora, paciente, nutricionista, motivo, observaciones } =
+    req.body;
 
   const cita = new Cita({
     fecha,
@@ -56,7 +50,7 @@ router.post("/api/cita", async (req, res) => {
 });
 
 // Ruta delete para eliminar una cita
-router.delete("/api/cita/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const deletedCita = await Cita.findByIdAndDelete(id);

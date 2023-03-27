@@ -3,7 +3,7 @@ const router = express.Router();
 const Entrenamiento = require("../models/Entrenamiento");
 
 // ruta get para obtener los entrenamientos
-router.get("/api/entrenamiento", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const entrenamientos = await Entrenamiento.find();
     res.json(entrenamientos);
@@ -13,7 +13,7 @@ router.get("/api/entrenamiento", async (req, res) => {
 });
 
 // Ruta GET para obtener un entrenamiento por su ID
-router.get("/api/entrenamiento/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -33,7 +33,7 @@ router.get("/api/entrenamiento/:id", async (req, res) => {
 });
 
 // Ruta PUT para actualizar un entrenamiento existente
-router.put("/api/entrenamiento/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -54,7 +54,7 @@ router.put("/api/entrenamiento/:id", async (req, res) => {
 });
 
 // Ruta POST para crear un nuevo entrenamiento
-router.post("/api/entrenamiento", async (req, res) => {
+router.post("", async (req, res) => {
   const entrenamiento = new Entrenamiento(req.body);
 
   try {
@@ -66,7 +66,7 @@ router.post("/api/entrenamiento", async (req, res) => {
 });
 
 // Ruta DELETE para eliminar un entrenamiento existente
-router.delete("/api/entrenamiento/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
