@@ -1,0 +1,133 @@
+.TopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  height: 80px;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.TopBar-left {
+  display: flex;
+  align-items: center;
+}
+
+.TopBar-logo-link {
+  display: block;
+  height: 40px;
+  margin-right: 20px;
+}
+
+.TopBar-logo {
+  height: 100%;
+}
+
+.TopBar-links {
+  display: flex;
+  align-items: center;
+}
+
+.TopBar-link {
+  font-size: 1.2rem;
+  color: #333;
+  margin-right: 20px;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.TopBar-link:hover {
+  color: #4caf50;
+}
+
+.TopBar-right {
+  display: flex;
+  align-items: center;
+}
+
+.TopBar-button {
+  font-size: 1.2rem;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.TopBar-button:hover {
+  background-color: #3d8b3d;
+}
+
+.TopBar-menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 30px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.TopBar-menu-icon span {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 2px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.TopBar-menu-icon span:first-child {
+  transform-origin: top;
+}
+
+.TopBar-menu-icon span:last-child {
+  transform-origin: bottom;
+}
+
+.TopBar-menu-icon.open span:first-child {
+  transform: translateY(12px) rotate(45deg);
+}
+
+.TopBar-menu-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.TopBar-menu-icon.open span:last-child {
+  transform: translateY(-12px) rotate(-45deg);
+}
+
+.TopBar-menu {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.TopBar-menu-link {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.TopBar-menu-button {
+  font-size: 1.2rem;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+  text-align: center;
+}
+
+.TopBar-menu-button:hover {
+  background-color: #3d8b3d;
+}
