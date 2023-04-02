@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Nutricionista = require("../models/Nutricionista");
+const authenticate = require("../middleware/authMiddleware");
 
 // router get para obtener los nutris
-router.get("", async (req, res) => {
+router.get("", authenticate, async (req, res) => {
   try {
     const nutricionista = await Nutricionista.find();
     res.json(nutricionista);
@@ -15,7 +16,7 @@ router.get("", async (req, res) => {
 });
 
 // Ruta put para actualizar  nutri
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticate, async (req, res) => {
   const { id } = req.params;
   try {
     const updatedNutricionista = await Nutricionista.findByIdAndUpdate(
@@ -37,7 +38,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // ruta post para crear un nitri
-router.post("", async (req, res) => {
+router.post("", authenticate, async (req, res) => {
   const { nombre, apellido, email, especialidad, aniosExperiencia } = req.body;
   const nutricionista = new Nutricionista({
     nombre,
@@ -55,7 +56,7 @@ router.post("", async (req, res) => {
 });
 
 // ruta delete para borrar nutri
-router.delete("", async (req, res) => {
+router.delete("", authenticate, async (req, res) => {
   const { id } = req.params;
   try {
     const deletedCita = await Nutricionista.findByIdAndDelete(id);

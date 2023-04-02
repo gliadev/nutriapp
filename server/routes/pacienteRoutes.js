@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Paciente = require("../models/Pacient");
+const authenticate = require("../middleware/authMiddleware");
 
 // Ruta para obtener todos los pacientes
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
     const pacientes = await Paciente.find();
     res.json(pacientes);
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 // Ruta para obtener un paciente por ID
-router.get(":id", async (req, res) => {
+router.get(":id", authenticate, async (req, res) => {
   try {
     const paciente = await Paciente.findById(req.params.id);
     if (paciente == null) {
@@ -26,7 +27,7 @@ router.get(":id", async (req, res) => {
 });
 
 // Ruta para crear un paciente
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
   const paciente = new Paciente({
     nombre: req.body.nombre,
     apellidos: req.body.apellidos,
@@ -46,7 +47,7 @@ router.post("/", async (req, res) => {
 });
 
 // Ruta para actualizar un paciente por ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticate, async (req, res) => {
   try {
     const paciente = await Paciente.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -61,7 +62,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Ruta para eliminar un paciente por ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticate, async (req, res) => {
   try {
     const paciente = await Paciente.findById(req.params.id);
     if (paciente == null) {

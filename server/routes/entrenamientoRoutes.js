@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Entrenamiento = require("../models/Entrenamiento");
+const authenticate = require("../authMiddleware");
 
 // ruta get para obtener los entrenamientos
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
     const entrenamientos = await Entrenamiento.find();
     res.json(entrenamientos);
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 // Ruta GET para obtener un entrenamiento por su ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticate, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -33,7 +34,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Ruta PUT para actualizar un entrenamiento existente
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticate, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -54,7 +55,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Ruta POST para crear un nuevo entrenamiento
-router.post("", async (req, res) => {
+router.post("", authenticate, async (req, res) => {
   const entrenamiento = new Entrenamiento(req.body);
 
   try {
@@ -66,7 +67,7 @@ router.post("", async (req, res) => {
 });
 
 // Ruta DELETE para eliminar un entrenamiento existente
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticate, async (req, res) => {
   const { id } = req.params;
 
   try {

@@ -19,13 +19,15 @@ function Home() {
             añadieran más mejoras
           </p>
         </div>
-        <div className="home-right">
-          <SlickCarousel />
-          <Wave />
+        <div>
+          <div className="home-right">
+            <SlickCarousel />
+          </div>
+          <div>
+            <Wave />
+          </div>
         </div>
       </div>
-      <div className="register-container"></div>
-      <div></div>
       <div>
         <Footer />
       </div>

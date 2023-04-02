@@ -1,78 +1,76 @@
 const express = require("express");
 const router = express.Router();
-const MenuSemanal = require("../models/MenusSemanal");
+const Receta = require("../models/Receta");
 const Nutricionista = require("../models/Nutricionista");
 const authenticate = require("../middleware/authMiddleware");
 
-// Obtener todos los menús semanales
+// Obtener todas las recetas
 router.get("", authenticate, async (req, res) => {
   try {
-    const menus = await MenuSemanal.find().populate("nutricionista");
-    res.json(menus);
+    const recetas = await Receta.find().populate("nutricionista");
+    res.json(recetas);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Obtener un menú semanal específico
+// Obtener una receta específica
 router.get("/:id", authenticate, async (req, res) => {
   try {
-    const menu = await MenuSemanal.findById(req.params.id).populate(
+    const receta = await Receta.findById(req.params.id).populate(
       "nutricionista"
     );
-    res.json(menu);
+    res.json(receta);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Crear un menú semanal
+// Crear una receta
 router.post("", authenticate, async (req, res) => {
   try {
-    const { nombre, descripcion, dias, nutricionista } = req.body;
+    const { titulo, ingredientes, pasos, nutricionista } = req.body;
     const nutricionistaExistente = await Nutricionista.findById(nutricionista);
 
     if (!nutricionistaExistente) {
       return res.status(400).json({ message: "Nutricionista no encontrado" });
     }
 
-    const newMenuSemanal = new MenuSemanal({
-      nombre,
-      descripcion,
-      dias,
+    const newReceta = new Receta({
+      titulo,
+      ingredientes,
+      pasos,
       nutricionista,
     });
 
-    const savedMenuSemanal = await newMenuSemanal.save();
-    res.status(201).json(savedMenuSemanal);
+    const savedReceta = await newReceta.save();
+    res.status(201).json(savedReceta);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Actualizar un menú semanal
+// Actualizar una receta
 router.put("/:id", authenticate, async (req, res) => {
   try {
-    const updatedMenuSemanal = await MenuSemanal.findByIdAndUpdate(
+    const updatedReceta = await Receta.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    res.json(updatedMenuSemanal);
+    res.json(updatedReceta);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Eliminar un menú semanal
+// Eliminar una receta
 router.delete("/:id", authenticate, async (req, res) => {
   try {
-    const deletedMenuSemanal = await MenuSemanal.findByIdAndRemove(
-      req.params.id
-    );
+    const deletedReceta = await Receta.findByIdAndRemove(req.params.id);
     res.json({
-      message: "Menú semanal eliminado con éxito",
-      deletedMenuSemanal,
+      message: "Receta eliminada con éxito",
+      deletedReceta,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
