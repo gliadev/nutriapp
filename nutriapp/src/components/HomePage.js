@@ -1,5 +1,8 @@
 import React from "react";
 import TopBar from "./TopBar";
+import ContactoForm from "./ContactoForm";
+import Footer from "./Footer";
+import Wave from "./Wave";
 import "../styles/HomePage.css";
 //import imagen1 from "../images/imagen1.jpg";
 //import imagen2 from "../images/imagen2.jpg";
@@ -20,12 +23,20 @@ function Home() {
           </p>
           <button className="home-button">Regístrate</button>
         </div>
-        <div className="home-right"></div>
+        <div className="home-right">
+          <Wave />
+        </div>
       </div>
       <div className="register-container">
         <h2>¿Eres nutricionista?</h2>
         <p>Regístrate para acceder a la zona de nutricionistas registrados</p>
         <button className="home-button">Regístrate</button>
+      </div>
+      <div>
+        <ContactoForm />
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );

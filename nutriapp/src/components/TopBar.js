@@ -19,10 +19,13 @@ function TopBar() {
     return (
       <nav className="TopBar-menu">
         <Link to="/equipo" className="TopBar-menu-link" onClick={closeMenu}>
-          Equipo
+          Inicio
         </Link>
         <Link to="/servicios" className="TopBar-menu-link" onClick={closeMenu}>
-          Servicios
+          Presentacion
+        </Link>
+        <Link to="/contacto" className="TopBar-link">
+          Contacto
         </Link>
         <Link
           to="/acceso-registro"
@@ -48,10 +51,13 @@ function TopBar() {
         {!isMobile && (
           <nav className="TopBar-links">
             <Link to="/equipo" className="TopBar-link">
-              Equipo
+              Inicio
             </Link>
             <Link to="/servicios" className="TopBar-link">
-              Servicios
+              Presentacion
+            </Link>
+            <Link to="/contacto" className="TopBar-link">
+              Contacto
             </Link>
           </nav>
         )}
