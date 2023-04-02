@@ -1,0 +1,50 @@
+.wave-container {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+}
+
+.wave-animation {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-image: url("https://user-images.githubusercontent.com/78279221/125086716-8b546a80-e09e-11eb-8f16-8f72a2661e92.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  animation: wave 20s linear infinite;
+}
+
+@keyframes wave {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 100%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .wave-animation {
+    height: 50px;
+  }
+}
+.wave-container {
+  position: relative;
+  margin-top: -50px;
+  z-index: -1;
+}
+
+.wave-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.wave-canvas {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
