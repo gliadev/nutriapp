@@ -26,6 +26,10 @@ const PacienteSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  rol: {
+    type: String,
+    default: "pacinete",
+  },
   // Añade aquí más campos según tus necesidades
 });
 

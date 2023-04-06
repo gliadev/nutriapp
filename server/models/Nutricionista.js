@@ -22,6 +22,10 @@ const NutricionistaSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  ol: {
+    type: String,
+    default: "nutricionista",
+  },
   // Añadir mas si necesitas
 });
 
