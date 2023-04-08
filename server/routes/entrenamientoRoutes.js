@@ -1,84 +1,117 @@
 const express = require("express");
 const router = express.Router();
 const Entrenamiento = require("../models/Entrenamiento");
-const authenticate = require("../authMiddleware");
+const authenticate = require("../middleware/authMiddleware");
+const authorizeRole = require("../middleware/authorizeRole");
+const verifyToken = require("../middleware/verifyToken");
+const { roles } = require("../helpers/roles");
 
-// ruta get para obtener los entrenamientos
-router.get("/", authenticate, async (req, res) => {
-  try {
-    const entrenamientos = await Entrenamiento.find();
-    res.json(entrenamientos);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+// Ruta GET para obtener todos los entrenamientos
+router.get(
+  "/",
+  verifyToken,
+  authenticate,
+  authorizeRole(roles.admin, roles.nutricionista, roles.paciente),
+  async (req, res) => {
+    try {
+      const entrenamientos = await Entrenamiento.find();
+      res.json(entrenamientos);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   }
-});
+);
 
 // Ruta GET para obtener un entrenamiento por su ID
-router.get("/:id", authenticate, async (req, res) => {
-  const { id } = req.params;
+router.get(
+  "/:id",
+  verifyToken,
+  authenticate,
+  authorizeRole(roles.admin, roles.nutricionista, roles.paciente),
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const entrenamiento = await Entrenamiento.findById(id).populate(
-      "nutricionista",
-      "nombre"
-    );
+    try {
+      const entrenamiento = await Entrenamiento.findById(id).populate(
+        "nutricionista",
+        "nombre"
+      );
 
-    if (!entrenamiento) {
-      return res.status(404).json({ message: "Entrenamiento no encontrado" });
+      if (!entrenamiento) {
+        return res.status(404).json({ message: "Entrenamiento no encontrado" });
+      }
+
+      res.json(entrenamiento);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-
-    res.json(entrenamiento);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
-});
+);
 
 // Ruta PUT para actualizar un entrenamiento existente
-router.put("/:id", authenticate, async (req, res) => {
-  const { id } = req.params;
+router.put(
+  "/:id",
+  verifyToken,
+  authenticate,
+  authorizeRole(roles.admin, roles.nutricionista),
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const updatedEntrenamiento = await Entrenamiento.findByIdAndUpdate(
-      id,
-      req.body,
-      {
-        new: true,
+    try {
+      const updatedEntrenamiento = await Entrenamiento.findByIdAndUpdate(
+        id,
+        req.body,
+        {
+          new: true,
+        }
+      );
+      if (!updatedEntrenamiento) {
+        return res.status(404).json({ message: "Entrenamiento no encontrado" });
       }
-    );
-    if (!updatedEntrenamiento) {
-      return res.status(404).json({ message: "Entrenamiento no encontrado" });
+      res.json(updatedEntrenamiento);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
     }
-    res.json(updatedEntrenamiento);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
   }
-});
+);
 
 // Ruta POST para crear un nuevo entrenamiento
-router.post("", authenticate, async (req, res) => {
-  const entrenamiento = new Entrenamiento(req.body);
+router.post(
+  "/",
+  verifyToken,
+  authenticate,
+  authorizeRole(roles.admin, roles.nutricionista),
+  async (req, res) => {
+    const entrenamiento = new Entrenamiento(req.body);
 
-  try {
-    const newEntrenamiento = await entrenamiento.save();
-    res.status(201).json(newEntrenamiento);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+    try {
+      const newEntrenamiento = await entrenamiento.save();
+      res.status(201).json(newEntrenamiento);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
   }
-});
+);
 
 // Ruta DELETE para eliminar un entrenamiento existente
-router.delete("/:id", authenticate, async (req, res) => {
-  const { id } = req.params;
+router.delete(
+  "/:id",
+  verifyToken,
+  authenticate,
+  authorizeRole(roles.admin, roles.nutricionista),
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const deletedEntrenamiento = await Entrenamiento.findByIdAndDelete(id);
-    if (!deletedEntrenamiento) {
-      return res.status(404).json({ message: "Entrenamiento no encontrado" });
+    try {
+      const deletedEntrenamiento = await Entrenamiento.findByIdAndDelete(id);
+      if (!deletedEntrenamiento) {
+        return res.status(404).json({ message: "Entrenamiento no encontrado" });
+      }
+      res.json({ message: "Entrenamiento eliminado" });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-    res.json({ message: "Entrenamiento eliminado" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
-});
+);
 
 module.exports = router;

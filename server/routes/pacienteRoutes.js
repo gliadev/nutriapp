@@ -1,78 +1,84 @@
 const express = require("express");
 const router = express.Router();
-const Paciente = require("../models/Pacient");
+const User = require("../models/User");
 const authenticate = require("../middleware/authMiddleware");
+const authorizeRole = require("../middleware/authorizeRole");
+const verifyToken = require("../middleware/verifyToken");
 
 // Ruta para obtener todos los pacientes
-router.get("/", authenticate, async (req, res) => {
-  try {
-    const pacientes = await Paciente.find();
-    res.json(pacientes);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+router.get(
+  "/",
+  verifyToken,
+  authenticate,
+  authorizeRole("admin", "nutricionista"),
+  async (req, res) => {
+    try {
+      const pacientes = await User.find({ role: "paciente" });
+      res.json(pacientes);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   }
-});
+);
 
 // Ruta para obtener un paciente por ID
-router.get(":id", authenticate, async (req, res) => {
-  try {
-    const paciente = await Paciente.findById(req.params.id);
-    if (paciente == null) {
-      return res.status(404).json({ message: "Paciente no encontrado" });
+router.get(
+  "/:id",
+  verifyToken,
+  authenticate,
+  authorizeRole("admin", "nutricionista"),
+  async (req, res) => {
+    try {
+      const paciente = await User.findById(req.params.id);
+      if (paciente == null || paciente.role !== "paciente") {
+        return res.status(404).json({ message: "Paciente no encontrado" });
+      }
+      res.json(paciente);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-    res.json(paciente);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
-});
-
-// Ruta para crear un paciente
-router.post("/", authenticate, async (req, res) => {
-  const paciente = new Paciente({
-    nombre: req.body.nombre,
-    apellidos: req.body.apellidos,
-    email: req.body.email,
-    fechaNacimiento: req.body.fechaNacimiento,
-    pesoActual: req.body.pesoActual,
-    historialMedico: req.body.historialMedico,
-    // aqui ya añado mas si necesitamos
-  });
-
-  try {
-    const newPaciente = await paciente.save();
-    res.status(201).json(newPaciente);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+);
 
 // Ruta para actualizar un paciente por ID
-router.put("/:id", authenticate, async (req, res) => {
-  try {
-    const paciente = await Paciente.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (paciente == null) {
-      return res.status(404).json({ message: "Paciente no encontrado" });
+router.put(
+  "/:id",
+  verifyToken,
+  authenticate,
+  authorizeRole("admin", "nutricionista"),
+  async (req, res) => {
+    try {
+      const paciente = await User.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
+      if (paciente == null || paciente.role !== "paciente") {
+        return res.status(404).json({ message: "Paciente no encontrado" });
+      }
+      res.json(paciente);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
     }
-    res.json(paciente);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
   }
-});
+);
 
 // Ruta para eliminar un paciente por ID
-router.delete("/:id", authenticate, async (req, res) => {
-  try {
-    const paciente = await Paciente.findById(req.params.id);
-    if (paciente == null) {
-      return res.status(404).json({ message: "Paciente no encontrado" });
+router.delete(
+  "/:id",
+  verifyToken,
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
+    try {
+      const paciente = await User.findById(req.params.id);
+      if (paciente == null || paciente.role !== "paciente") {
+        return res.status(404).json({ message: "Paciente no encontrado" });
+      }
+      await paciente.remove();
+      res.json({ message: "Paciente eliminado con éxito" });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-    await paciente.remove();
-    res.json({ message: "Paciente eliminado con éxito" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
-});
+);
 
 module.exports = router;

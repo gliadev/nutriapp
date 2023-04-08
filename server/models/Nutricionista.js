@@ -5,7 +5,7 @@ const NutricionistaSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  apellido: {
+  apellidos: {
     type: String,
     required: true,
   },
@@ -22,7 +22,7 @@ const NutricionistaSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  ol: {
+  rol: {
     type: String,
     default: "nutricionista",
   },

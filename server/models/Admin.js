@@ -20,10 +20,6 @@ const AdminSchema = new Schema({
     type: String,
     default: "admin",
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 const Admin = mongoose.model("Admin", AdminSchema);
