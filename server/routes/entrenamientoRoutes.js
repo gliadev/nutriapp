@@ -1,17 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const Entrenamiento = require("../models/Entrenamiento");
-const authenticate = require("../middleware/authMiddleware");
-const authorizeRole = require("../middleware/authorizeRole");
-const verifyToken = require("../middleware/verifyToken");
+const {
+  adminMiddleware,
+  authMiddleware,
+  authorizeRole,
+  verifyToken,
+} = require("../middleware/middlewares");
 const { roles } = require("../helpers/roles");
 
 // Ruta GET para obtener todos los entrenamientos
 router.get(
   "/",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista, roles.paciente),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
   async (req, res) => {
     try {
       const entrenamientos = await Entrenamiento.find();
@@ -26,8 +29,8 @@ router.get(
 router.get(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista, roles.paciente),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
   async (req, res) => {
     const { id } = req.params;
 
@@ -52,8 +55,8 @@ router.get(
 router.put(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista]),
   async (req, res) => {
     const { id } = req.params;
 
@@ -79,8 +82,8 @@ router.put(
 router.post(
   "/",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista]),
   async (req, res) => {
     const entrenamiento = new Entrenamiento(req.body);
 
@@ -97,8 +100,8 @@ router.post(
 router.delete(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista]),
   async (req, res) => {
     const { id } = req.params;
 

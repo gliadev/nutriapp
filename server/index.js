@@ -33,11 +33,11 @@ db.once("open", function () {
   app.use(express.json());
 
   // Agregar las rutas de las colecciones
-  app.use("/api/paciente", pacienteRoutes);
-  app.use("/api/entrenamiento", entrenamientoRoutes);
-  app.use("/api/nutricionista", nutricionistaRoutes);
-  app.use("/api/cita", citaRoutes);
-  app.use("/api/menus-semanal", menusSemanalRoutes);
+  app.use("/paciente", pacienteRoutes);
+  app.use("/entrenamiento", entrenamientoRoutes);
+  app.use("/nutricionista", nutricionistaRoutes);
+  app.use("/cita", citaRoutes);
+  app.use("/menus-semanal", menusSemanalRoutes);
 
   // Manejar errores
   app.use((err, req, res, next) => {

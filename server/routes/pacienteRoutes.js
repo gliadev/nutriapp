@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const authenticate = require("../middleware/authMiddleware");
-const authorizeRole = require("../middleware/authorizeRole");
-const verifyToken = require("../middleware/verifyToken");
+const { roles } = require("../helpers/roles");
+const {
+  adminMiddleware,
+  authMiddleware,
+  authorizeRole,
+  verifyToken,
+} = require("../middleware/middlewares");
 
 // Ruta para obtener todos los pacientes
 router.get(
   "/",
   verifyToken,
-  authenticate,
-  authorizeRole("admin", "nutricionista"),
+  authMiddleware,
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const pacientes = await User.find({ role: "paciente" });
@@ -25,8 +29,8 @@ router.get(
 router.get(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole("admin", "nutricionista"),
+  authMiddleware,
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const paciente = await User.findById(req.params.id);
@@ -44,8 +48,8 @@ router.get(
 router.put(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole("admin", "nutricionista"),
+  authMiddleware,
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const paciente = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -65,8 +69,8 @@ router.put(
 router.delete(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole("admin"),
+  authMiddleware,
+  authorizeRole([roles.ADMIN]),
   async (req, res) => {
     try {
       const paciente = await User.findById(req.params.id);

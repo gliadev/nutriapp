@@ -1,17 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const authenticate = require("../middleware/authMiddleware");
-const authorizeRole = require("../middleware/authorizeRole");
-const verifyToken = require("../middleware/verifyToken");
 const { roles } = require("../helpers/roles");
+const {
+  adminMiddleware,
+  authMiddleware,
+  authorizeRole,
+  verifyToken,
+} = require("../middleware/middlewares");
 
 // router get para obtener los nutris
 router.get(
   "",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.ADMIN, roles.NUTRICIONISTA),
+  authMiddleware,
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const nutricionistas = await User.find({ role: "nutricionista" });
@@ -28,8 +31,8 @@ router.get(
 router.put(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.ADMIN, roles.NUTRICIONISTA),
+  authMiddleware,
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     const { id } = req.params;
     try {
@@ -52,8 +55,8 @@ router.put(
 router.post(
   "",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.ADMIN),
+  authMiddleware,
+  authorizeRole([roles.ADMIN]),
   async (req, res) => {
     const { nombre, apellido, email, especialidad, aniosExperiencia } =
       req.body;
@@ -78,8 +81,8 @@ router.post(
 router.delete(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.ADMIN),
+  authMiddleware,
+  authorizeRole([roles.ADMIN]),
   async (req, res) => {
     const { id } = req.params;
     try {

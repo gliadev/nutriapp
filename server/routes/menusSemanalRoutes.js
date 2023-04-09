@@ -2,17 +2,20 @@ const express = require("express");
 const router = express.Router();
 const MenuSemanal = require("../models/MenusSemanal");
 const Nutricionista = require("../models/Nutricionista");
-const authenticate = require("../middleware/authMiddleware");
-const authorizeRole = require("../middleware/authorizeRole");
-const verifyToken = require("../middleware/verifyToken");
 const { roles } = require("../helpers/roles");
+const {
+  adminMiddleware,
+  authMiddleware,
+  authorizeRole,
+  verifyToken,
+} = require("../middleware/middlewares");
 
 // Obtener todos los menús semanales
 router.get(
   "",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista, roles.paciente),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
   async (req, res) => {
     try {
       const menus = await MenuSemanal.find().populate("nutricionista");
@@ -27,8 +30,8 @@ router.get(
 router.get(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista, roles.paciente),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
   async (req, res) => {
     try {
       const menu = await MenuSemanal.findById(req.params.id).populate(
@@ -45,8 +48,8 @@ router.get(
 router.post(
   "",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista]),
   async (req, res) => {
     try {
       const { nombre, descripcion, dias, nutricionista } = req.body;
@@ -77,8 +80,8 @@ router.post(
 router.put(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista]),
   async (req, res) => {
     try {
       const updatedMenuSemanal = await MenuSemanal.findByIdAndUpdate(
@@ -97,8 +100,8 @@ router.put(
 router.delete(
   "/:id",
   verifyToken,
-  authenticate,
-  authorizeRole(roles.admin, roles.nutricionista),
+  authMiddleware,
+  authorizeRole([roles.admin, roles.nutricionista]),
   async (req, res) => {
     try {
       const deletedMenuSemanal = await MenuSemanal.findByIdAndRemove(
