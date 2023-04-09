@@ -14,7 +14,7 @@ router.get(
   "/",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA, roles.PACIENTE]),
   async (req, res) => {
     try {
       const entrenamientos = await Entrenamiento.find();
@@ -30,7 +30,7 @@ router.get(
   "/:id",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA, roles.PACIENTE]),
   async (req, res) => {
     const { id } = req.params;
 
@@ -56,7 +56,7 @@ router.put(
   "/:id",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     const { id } = req.params;
 
@@ -83,7 +83,7 @@ router.post(
   "/",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     const entrenamiento = new Entrenamiento(req.body);
 
@@ -101,7 +101,7 @@ router.delete(
   "/:id",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     const { id } = req.params;
 

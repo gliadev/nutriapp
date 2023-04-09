@@ -8,6 +8,13 @@ const entrenamientoRoutes = require("./routes/entrenamientoRoutes");
 const citaRoutes = require("./routes/citaRoutes");
 const nutricionistaRoutes = require("./routes/nutricionistaRoutes");
 const menusSemanalRoutes = require("./routes/menusSemanalRoutes");
+const {
+  authMiddleware,
+  adminMiddleware,
+  authorizeRole,
+  verifyToken,
+  checkRole,
+} = require("./middleware/middlewares");
 
 // Conectar Mongoose a MongoDB Atlas
 mongoose
@@ -31,6 +38,7 @@ db.once("open", function () {
 
   // Configurar middlewares
   app.use(express.json());
+  app.use(authMiddleware);
 
   // Agregar las rutas de las colecciones
   app.use("/paciente", pacienteRoutes);

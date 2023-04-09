@@ -80,8 +80,8 @@ function verifyToken(req, res, next) {
 
 module.exports = {
   authMiddleware,
-  authorizeRole,
-  checkRole,
   adminMiddleware,
+  authorizeRole,
   verifyToken,
+  checkRole,
 };

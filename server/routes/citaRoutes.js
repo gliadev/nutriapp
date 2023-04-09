@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Cita = require("../models/Cita");
 const {
-  adminMiddleware,
   authMiddleware,
   authorizeRole,
   verifyToken,
@@ -12,6 +11,7 @@ const { roles } = require("../helpers/roles");
 // Ruta GET para obtener citas
 router.get(
   "/",
+  verifyToken,
   authMiddleware,
   authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async function (req, res) {
@@ -27,6 +27,7 @@ router.get(
 // Ruta PUT para actualizar una cita
 router.put(
   "/:id",
+  verifyToken,
   authMiddleware,
   authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
@@ -48,6 +49,7 @@ router.put(
 // Ruta POST para crear una cita nueva
 router.post(
   "/",
+  verifyToken,
   authMiddleware,
   authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
@@ -74,6 +76,7 @@ router.post(
 // Ruta DELETE para eliminar una cita
 router.delete(
   "/:id",
+  verifyToken,
   authMiddleware,
   authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
@@ -89,3 +92,4 @@ router.delete(
     }
   }
 );
+module.exports = router;

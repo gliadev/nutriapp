@@ -15,7 +15,7 @@ router.get(
   "",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA, roles.PACIENTE]),
   async (req, res) => {
     try {
       const menus = await MenuSemanal.find().populate("nutricionista");
@@ -31,7 +31,7 @@ router.get(
   "/:id",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista, roles.paciente]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA, roles.PACIENTE]),
   async (req, res) => {
     try {
       const menu = await MenuSemanal.findById(req.params.id).populate(
@@ -49,7 +49,7 @@ router.post(
   "",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const { nombre, descripcion, dias, nutricionista } = req.body;
@@ -81,7 +81,7 @@ router.put(
   "/:id",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const updatedMenuSemanal = await MenuSemanal.findByIdAndUpdate(
@@ -101,7 +101,7 @@ router.delete(
   "/:id",
   verifyToken,
   authMiddleware,
-  authorizeRole([roles.admin, roles.nutricionista]),
+  authorizeRole([roles.ADMIN, roles.NUTRICIONISTA]),
   async (req, res) => {
     try {
       const deletedMenuSemanal = await MenuSemanal.findByIdAndRemove(
@@ -117,4 +117,4 @@ router.delete(
   }
 );
 
-module.exports;
+module.exports = router;
